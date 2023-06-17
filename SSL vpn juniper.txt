@@ -1,0 +1,841 @@
+set system root-authentication encrypted-password "$1$GFEnC8Y6$67Mhbiy/WjqY.ooJ3j87I/"
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system services ssh root-login allow
+set system services dns
+set system services web-management http
+set system services web-management https system-generated-certificate
+set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.242/24
+set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+set security ike policy ike_pol_wizard_dyn_vpn mode aggressive
+set security ike policy ike_pol_wizard_dyn_vpn proposal-set compatible
+set security ike policy ike_pol_wizard_dyn_vpn pre-shared-key ascii-text "$9$Tz6CtpB1RSmfIcSlLXGDjkfT369"
+set security ike gateway gw_wizard_dyn_vpn ike-policy ike_pol_wizard_dyn_vpn
+set security ike gateway gw_wizard_dyn_vpn dynamic hostname mahesh.com
+set security ike gateway gw_wizard_dyn_vpn dynamic connections-limit 50
+set security ike gateway gw_wizard_dyn_vpn dynamic ike-user-type group-ike-id
+set security ike gateway gw_wizard_dyn_vpn external-interface ge-0/0/4.0
+set security ike gateway gw_wizard_dyn_vpn xauth access-profile remote_access_profile
+set security ipsec policy ipsec_pol_wizard_dyn_vpn perfect-forward-secrecy keys group2
+set security ipsec policy ipsec_pol_wizard_dyn_vpn proposal-set compatible
+set security ipsec vpn wizard_dyn_vpn ike gateway gw_wizard_dyn_vpn
+set security ipsec vpn wizard_dyn_vpn ike ipsec-policy ipsec_pol_wizard_dyn_vpn
+set security dynamic-vpn access-profile remote_access_profile
+set security dynamic-vpn clients wizard-dyn-group remote-protected-resources 10.10.10.0/24
+set security dynamic-vpn clients wizard-dyn-group ipsec-vpn wizard_dyn_vpn
+set security dynamic-vpn clients wizard-dyn-group user mahesh
+set security nat source rule-set RS1 from zone TRUST
+set security nat source rule-set RS1 to zone UNTRUST
+set security nat source rule-set RS1 rule R1 match source-address 10.10.10.0/24
+set security nat source rule-set RS1 rule R1 then source-nat interface
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match source-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match application any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match application any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match application any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn then permit tunnel ipsec-vpn wizard_dyn_vpn
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic protocols all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic protocols all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic system-services all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic protocols all
+set access profile remote_access_profile client mahesh firewall-user password "$9$k.5Fn6Atu1jHpB1EeKgoaGHqfTz"
+set access profile remote_access_profile address-assignment pool dyn-vpn-address-pool
+set access address-assignment pool dyn-vpn-address-pool family inet network 20.20.20.0/24
+set access address-assignment pool dyn-vpn-address-pool family inet xauth-attributes primary-dns 8.8.8.8/32
+set access firewall-authentication web-authentication default-profile remote_access_profile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Amnesiac (ttyu0)
+
+login:
+Amnesiac (ttyu0)
+
+login:
+Amnesiac (ttyu0)
+
+login:
+Amnesiac (ttyu0)
+
+login: root
+Password:
+
+--- JUNOS 12.1X46-D65.4 built 2016-12-30 01:34:30 UTC
+
+
+
+
+
+
+
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@%
+root@% cli
+
+
+
+
+
+root>
+
+root>
+
+
+root>
+
+root>
+
+root>
+
+root>
+
+root>
+
+root> show version
+Model: srx220h
+JUNOS Software Release [12.1X46-D65.4]
+
+root>
+
+root>
+
+root>
+
+root> show configuration |display set |no-more
+set version 12.1X46-D65.4
+set system root-authentication encrypted-password "$1$4OVfwYDW$SzVa4Sfh.pLwhW.H9dnrw1"
+set system name-server 208.67.222.222
+set system name-server 208.67.220.220
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system services ssh root-login allow
+set system services telnet
+set system services xnm-clear-text
+set system services dns
+set system services web-management http interface vlan.0
+set system services web-management https system-generated-certificate
+set system services web-management https interface vlan.0
+set system services dhcp router 192.168.1.1
+set system services dhcp pool 192.168.1.0/24 address-range low 192.168.1.2
+set system services dhcp pool 192.168.1.0/24 address-range high 192.168.1.254
+set system services dhcp propagate-settings ge-0/0/0.0
+set system syslog archive size 100k
+set system syslog archive files 3
+set system syslog user * any emergency
+set system syslog file messages any critical
+set system syslog file messages authorization info
+set system syslog file interactive-commands interactive-commands error
+set system max-configurations-on-flash 5
+set system max-configuration-rollbacks 5
+set system license autoupdate url https://ae1.juniper.net/junos/key_retrieval
+set interfaces ge-0/0/0 unit 0 family inet address 172.16.2.244/24
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.4.61/24
+set interfaces ge-0/0/1 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.245/24
+set interfaces ge-0/0/5 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces ge-0/0/7 unit 0 family ethernet-switching vlan members vlan-trust
+set interfaces vlan unit 0 family inet address 192.168.1.1/24
+set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+set routing-options static route 0.0.0.0/0 next-hop 192.168.137.1
+set protocols stp
+set security screen ids-option untrust-screen icmp ping-death
+set security screen ids-option untrust-screen ip source-route-option
+set security screen ids-option untrust-screen ip tear-drop
+set security screen ids-option untrust-screen tcp syn-flood alarm-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood attack-threshold 200
+set security screen ids-option untrust-screen tcp syn-flood source-threshold 1024
+set security screen ids-option untrust-screen tcp syn-flood destination-threshold 2048
+set security screen ids-option untrust-screen tcp syn-flood timeout 20
+set security screen ids-option untrust-screen tcp land
+set security nat source rule-set trust-to-untrust from zone trust
+set security nat source rule-set trust-to-untrust to zone untrust
+set security nat source rule-set trust-to-untrust rule source-nat-rule match source-address 0.0.0.0/0
+set security nat source rule-set trust-to-untrust rule source-nat-rule then source-nat interface
+set security nat source rule-set RS1 from zone TRUST
+set security nat source rule-set RS1 to zone UNTRUST
+set security nat source rule-set RS1 rule R1 match source-address 10.10.10.0/24
+set security nat source rule-set RS1 rule R1 then source-nat interface
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match source-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match destination-address any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust match application any
+set security policies from-zone trust to-zone untrust policy trust-to-untrust then permit
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match source-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match application any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match application any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST then permit
+set security zones security-zone trust host-inbound-traffic system-services all
+set security zones security-zone trust host-inbound-traffic protocols all
+set security zones security-zone trust interfaces vlan.0
+set security zones security-zone untrust screen untrust-screen
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services dhcp
+set security zones security-zone untrust interfaces ge-0/0/0.0 host-inbound-traffic system-services tftp
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic protocols all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic protocols all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic system-services all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic protocols all
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test probe-type icmp-ping
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test target address 8.8.8.8
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test probe-count 10
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test probe-interval 5
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test test-interval 10
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test thresholds successive-loss 10
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test thresholds total-loss 5
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test destination-interface ge-0/0/4.0
+set services rpm probe AIRTEL-1G-Fail test AIRTEL-1G-test next-hop 172.16.2.1
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test probe-type icmp-ping
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test target address 8.8.8.8
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test probe-count 10
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test probe-interval 5
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test test-interval 10
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test thresholds successive-loss 10
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test thresholds total-loss 5
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test destination-interface ge-0/0/4.0
+set services rpm probe DTN-AIRTEL-1G-Fail test AIRTEL-1G-test next-hop 172.16.2.1
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test probe-type icmp-ping
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test target address 8.8.8.8
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test probe-count 10
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test probe-interval 5
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test test-interval 10
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test thresholds successive-loss 10
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test thresholds total-loss 5
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test destination-interface ge-0/0/6.0
+set services rpm probe DTN-AIRTEL-1G-Fail test DTN-test next-hop 172.16.2.1
+set services ip-monitoring policy AIRTEL-1G-Failover match rpm-probe AIRTEL-1G-Fail
+set services ip-monitoring policy AIRTEL-1G-Failover then preferred-route route 0.0.0.0/0 next-hop 172.16.2.1
+set vlans vlan-trust vlan-id 3
+set vlans vlan-trust l3-interface vlan.0
+
+root> configure
+Entering configuration mode
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root# delete
+This will delete the entire configuration
+Delete everything under this level? [yes,no] (no)
+
+
+[edit]
+root# delete
+This will delete the entire configuration
+Delete everything under this level? [yes,no] (no) yes
+
+
+[edit]
+root#
+
+[edit]
+root# set s
+           ^
+'s' is ambiguous.
+Possible completions:
+> schedulers           Security scheduler
+> security             Security configuration
+> services             Set services parameters
+> smtp                 Simple Mail Transfer Protocol service configuration
+> snmp                 Simple Network Management Protocol configuration
+> switch-options       Options for default routing-instance of type virtual-switch
+> system               System parameters
+[edit]
+root# set system root-authentication plain-text-password
+New password:
+Retype new password:
+
+[edit]
+root#
+
+[edit]
+root# set system services dns
+
+[edit]
+root# set system services ssh
+
+[edit]
+root# set system services ssh root-login allow
+
+[edit]
+root# set system services web-management http
+
+[edit]
+root# set system services web-management https
+
+[edit]
+root# set system services web-management https we
+                                               ^
+syntax error.
+root# ...-management https system-generated-certificate
+
+[edit]
+root# commit
+se
+
+
+
+
+
+commit complete
+
+[edit]
+root# set
+          ^
+syntax error.
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root# set system name-server 8.8.8.8
+set system name-se
+rver 8.8.4.4
+set system services ssh root-login allow
+set system services telnet connection-limit 5
+set system services telnet rate-limit 5
+set system services dns
+set system services web-management http
+set system services web-management https system-generated-certificate
+
+set security nat source rule-set RS1 from zone TRUST
+set security nat source rule-set RS1 to zone UNTRUST
+set security nat source rule-set RS1 rule R1 match source-address 10.10.10.0/24
+set security nat source rule-set RS1 rule R1 then source-nat interface
+
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match source-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match application any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match application any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST then permit
+
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic protocols all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic protocols all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic system-services all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic protocols all
+
+set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.242/24
+set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1[edit]
+root# set system name-server 8.8.4.4
+
+[edit]
+root# set system services ssh root-login allow
+
+[edit]
+root# set system services telnet connection-limit 5
+                                                  ^
+Value 5 is not within range (1..3) at '5'
+
+[edit]
+root# set system services telnet rate-limit 5
+                                            ^
+Value 5 is not within range (1..3) at '5'
+
+[edit]
+root# set system services dns
+
+[edit]
+root# set system services web-management http
+
+[edit]
+root# ...-management https system-generated-certificate
+
+[edit]
+root#
+
+[edit]
+root# set security nat source rule-set RS1 from zone TRUST
+
+[edit]
+root# set security nat source rule-set RS1 to zone UNTRUST
+
+[edit]
+root# ... rule-set RS1 rule R1 match source-address 10.10.10.0/24
+
+[edit]
+root# ... rule-set RS1 rule R1 then source-nat interface
+
+[edit]
+root#
+
+[edit]
+root# ...ne UNTRUST policy TRUST-TO-UNTRUST match source-address any
+
+[edit]
+root# ...ne UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+
+[edit]
+root# ...ne UNTRUST policy TRUST-TO-UNTRUST match application any
+
+[edit]
+root# ...ne UNTRUST policy TRUST-TO-UNTRUST then permit
+
+[edit]
+root# ...zone TRUST policy UNTRUST-TO-TRUST match source-address any
+
+[edit]
+root# ...zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+
+[edit]
+root# ...zone TRUST policy UNTRUST-TO-TRUST match application any
+
+[edit]
+root# ...zone TRUST policy UNTRUST-TO-TRUST then permit
+
+[edit]
+root#
+
+[edit]
+root# ...rfaces ge-0/0/2.0 host-inbound-traffic system-services all
+
+[edit]
+root# ...rfaces ge-0/0/2.0 host-inbound-traffic protocols all
+
+[edit]
+root# ...rfaces ge-0/0/3.0 host-inbound-traffic system-services all
+
+[edit]
+root# ...rfaces ge-0/0/3.0 host-inbound-traffic protocols all
+
+[edit]
+root# ...terfaces ge-0/0/4.0 host-inbound-traffic system-services all
+
+[edit]
+root# ...terfaces ge-0/0/4.0 host-inbound-traffic protocols all
+
+[edit]
+root#
+
+[edit]
+root# set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+
+[edit]
+root# set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+
+[edit]
+root# set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.242/24
+
+[edit]
+root# set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+
+[edit]
+root# commit
+
+
+commit complete
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root# run ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: icmp_seq=0 ttl=118 time=4.810 ms
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=4.584 ms
+^C
+--- 8.8.8.8 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 4.584/4.697/4.810/0.113 ms
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root# set routing-options static route 0.0.0.0/0nex
+                                       ^
+invalid input at 'nex' in address '0.0.0.0/0nex' at '0.0.0.0/0nex'
+root# set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+
+[edit]
+root# commit
+commit complete
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root#
+
+[edit]
+root# exit
+Exiting configuration mode
+
+root>
+
+root>
+
+root> show configuration |D
+                          ^
+syntax error, expecting <command>.
+root> show configuration |display set |no-more
+set version 12.1X46-D65.4
+set system root-authentication encrypted-password "$1$GFEnC8Y6$67Mhbiy/WjqY.ooJ3j87I/"
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system services ssh root-login allow
+set system services dns
+set system services web-management http
+set system services web-management https system-generated-certificate
+set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.242/24
+set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+set security nat source rule-set RS1 from zone TRUST
+set security nat source rule-set RS1 to zone UNTRUST
+set security nat source rule-set RS1 rule R1 match source-address 10.10.10.0/24
+set security nat source rule-set RS1 rule R1 then source-nat interface
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match source-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match application any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match application any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST then permit
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic protocols all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic protocols all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic system-services all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic protocols all
+
+root>
+
+root>
+
+root>
+
+root> show configuration |display set |no-more
+set version 12.1X46-D65.4
+set system root-authentication encrypted-password "$1$GFEnC8Y6$67Mhbiy/WjqY.ooJ3j87I/"
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system services ssh root-login allow
+set system services dns
+set system services web-management http
+set system services web-management https system-generated-certificate
+set interfaces ge-0/0/2 unit 0 family inet address 10.10.10.1/24
+set interfaces ge-0/0/3 unit 0 family inet address 1.1.1.1/24
+set interfaces ge-0/0/4 unit 0 family inet address 172.16.2.242/24
+set routing-options static route 0.0.0.0/0 next-hop 172.16.2.1
+set security ike policy ike_pol_wizard_dyn_vpn mode aggressive
+set security ike policy ike_pol_wizard_dyn_vpn proposal-set compatible
+set security ike policy ike_pol_wizard_dyn_vpn pre-shared-key ascii-text "$9$Tz6CtpB1RSmfIcSlLXGDjkfT369"
+set security ike gateway gw_wizard_dyn_vpn ike-policy ike_pol_wizard_dyn_vpn
+set security ike gateway gw_wizard_dyn_vpn dynamic hostname mahesh.com
+set security ike gateway gw_wizard_dyn_vpn dynamic connections-limit 50
+set security ike gateway gw_wizard_dyn_vpn dynamic ike-user-type group-ike-id
+set security ike gateway gw_wizard_dyn_vpn external-interface ge-0/0/4.0
+set security ike gateway gw_wizard_dyn_vpn xauth access-profile remote_access_profile
+set security ipsec policy ipsec_pol_wizard_dyn_vpn perfect-forward-secrecy keys group2
+set security ipsec policy ipsec_pol_wizard_dyn_vpn proposal-set compatible
+set security ipsec vpn wizard_dyn_vpn ike gateway gw_wizard_dyn_vpn
+set security ipsec vpn wizard_dyn_vpn ike ipsec-policy ipsec_pol_wizard_dyn_vpn
+set security dynamic-vpn access-profile remote_access_profile
+set security dynamic-vpn clients wizard-dyn-group remote-protected-resources 10.10.10.0/24
+set security dynamic-vpn clients wizard-dyn-group ipsec-vpn wizard_dyn_vpn
+set security dynamic-vpn clients wizard-dyn-group user mahesh
+set security nat source rule-set RS1 from zone TRUST
+set security nat source rule-set RS1 to zone UNTRUST
+set security nat source rule-set RS1 rule R1 match source-address 10.10.10.0/24
+set security nat source rule-set RS1 rule R1 then source-nat interface
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match source-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match destination-address any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST match application any
+set security policies from-zone TRUST to-zone UNTRUST policy TRUST-TO-UNTRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST match application any
+set security policies from-zone UNTRUST to-zone TRUST policy UNTRUST-TO-TRUST then permit
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match source-address any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match destination-address any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn match application any
+set security policies from-zone UNTRUST to-zone TRUST policy policy_in_wizard_dyn_vpn then permit tunnel ipsec-vpn wizard_dyn_vpn
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/2.0 host-inbound-traffic protocols all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic system-services all
+set security zones security-zone TRUST interfaces ge-0/0/3.0 host-inbound-traffic protocols all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic system-services all
+set security zones security-zone UNTRUST interfaces ge-0/0/4.0 host-inbound-traffic protocols all
+set access profile remote_access_profile client mahesh firewall-user password "$9$k.5Fn6Atu1jHpB1EeKgoaGHqfTz"
+set access profile remote_access_profile address-assignment pool dyn-vpn-address-pool
+set access address-assignment pool dyn-vpn-address-pool family inet network 20.20.20.0/24
+set access address-assignment pool dyn-vpn-address-pool family inet xauth-attributes primary-dns 8.8.8.8/32
+set access firewall-authentication web-authentication default-profile remote_access_profile
+
+root>
+
+root>
+
+root>
+
+root>
+
+root>
+
+root> configure
+Entering configuration mode
+
+[edit]
+root# set s
+           ^
+'s' is ambiguous.
+Possible completions:
+> schedulers           Security scheduler
+> security             Security configuration
+> services             Set services parameters
+> smtp                 Simple Mail Transfer Protocol service configuration
+> snmp                 Simple Network Management Protocol configuration
+> switch-options       Options for default routing-instance of type virtual-switch
+> system               System parameters
+[edit]
+root# set system er
+                 ^
+syntax error.
+root# set system we
+                 ^
+syntax error.
+root# set system services web-management https ?
+Possible completions:
+  <[Enter]>            Execute this command
++ apply-groups         Groups from which to inherit configuration data
++ apply-groups-except  Don't inherit configuration data from these groups
++ interface            Interfaces that accept HTTPS access
+  local-certificate    X.509 certificate to use (from configuration)
+  pki-local-certificate  X.509 certificate to use (from PKI local store)
+  port                 TCP port for incoming HTTPS connections (1..65535)
+  system-generated-certificate  X.509 certificate generated automatically by system
+  |                    Pipe through a command
+[edit]
+root# set system services web-management https pki-local-certificate
+                                                                     ^
+syntax error, expecting <data>.
+
+[edit]
+root# set system services web-management https pki-local-certificate ?
+Possible completions:
+  <pki-local-certificate>  X.509 certificate to use (from PKI local store)
+  2
+  juniper-RA-LB
+[edit]
+root# ...-management https pki-local-certificate juniper-RA-LB
+
+[edit]
+root# commit
+commit complete
+
+[edit]
+root# set system services web-management lo
+                                         ^
+syntax error.
+root# set system services web-management ?
+Possible completions:
++ apply-groups         Groups from which to inherit configuration data
++ apply-groups-except  Don't inherit configuration data from these groups
+> control              Control of the web management process
+> http                 Unencrypted HTTP connection settings
+> https                Encrypted HTTPS connections
+  management-url       URL path for web management access
+> session              Session parameters
+> traceoptions         Web management trace options
+[edit]
+root# set system services web-management https ?
+Possible completions:
+  <[Enter]>            Execute this command
++ apply-groups         Groups from which to inherit configuration data
++ apply-groups-except  Don't inherit configuration data from these groups
++ interface            Interfaces that accept HTTPS access
+  local-certificate    X.509 certificate to use (from configuration)
+  pki-local-certificate  X.509 certificate to use (from PKI local store)
+  port                 TCP port for incoming HTTPS connections (1..65535)
+  system-generated-certificate  X.509 certificate generated automatically by system
+  |                    Pipe through a command
+[edit]
+root# set system services web-management https local-certificate
+                                                                 ^
+syntax error, expecting <data>.
+
+[edit]
+root# set system services web-management https local-certificate ?
+Possible completions:
+  <local-certificate>  X.509 certificate to use (from configuration)
+[edit]
+root# set system services web-management https pki-local-certificate ?
+Possible completions:
+  <pki-local-certificate>  X.509 certificate to use (from PKI local store)
+  2
+  juniper-RA-LB
+[edit]
+root# set system services web-management https pki-local-certificate 2
+
+[edit]
+root# set system services web-management https pki-local-certificate 2 ?
+Possible completions:
+  <[Enter]>            Execute this command
++ apply-groups         Groups from which to inherit configuration data
++ apply-groups-except  Don't inherit configuration data from these groups
++ interface            Interfaces that accept HTTPS access
+  port                 TCP port for incoming HTTPS connections (1..65535)
+  |                    Pipe through a command
+[edit]
+root# set system services web-management https pki-local-certificate 2
+
+[edit]
+root# commit
+▒▒▒▒
+
+▒▒▒▒▒▒▒commit somplete
+
+[edyt]
+root#
+
+[edit]-
+       root#
+
+[edit]
+root# ▒▒▒▒▒
+        )kK:J*▒▒▒"j---(backing up)-/-
+Possible completions:
+  <[Enter]>   0    0   Execute this commaod
+  activate ▒▒▒▒▒ٕ▒the inactive ▒X2ɽ▒▒a statement
+  annotate             Annotate the statement with a comment
+  commit               Commkt current set of changes
+  copy              ▒  Copy a statement
+  deacvivate           Add the inactive tag to a s▒XWV▒▒▒5
+                                                            delete     !         Delete a data element
+  edit                 Edit a(sub-elemeNt
+ `exit     !           Exit from this level
+  extension    ▒*▒ѕ▒ͥ▒▒▒operations
+  help                 Provide help informatio~
+  insert               Insert a new ordered data element
+  load                 Load configuration from ASCIi file
+  prompt               Prompt for an intut
+  protect              Protect the statemenv
+  quit                Quit from this level
+  rename               Rename a statement
+  rEplace              Replace cjaracter string in configuration
+  rollback             Roll back uo previous committed configuration
+  run                  Run an operational-mode command
+  save                 Save"configuration t
+
+%%▒file                                    M
+  set                  Set a▒parameter
+---(backing up)---                                 ▒j-/-(more 79%)---
+Possible completions:
+  <[Enuer]:            Execute this command
+  activate           0Remove thg inactivE tag from a statement
+  annotate             Annotate thg statement with a oomment
+  commit          ▒▒▒▒▒с▒▒ɕ▒сse▒ of cha▒ges
+ 0copy                 Copy a stapement
+  deactivate     !     Add the inactive tag to a statement
+  delete               Delete a dqta element
+  edit   `             Edit a sub-element
+  exit                 Exit from this level
+  extension   ▒*▒ѕ▒ͥ▒▒▒operations
+  help             ▒   Provide help information
+  insert            (  Inserv a new or▒Y▒"▒х▒element
+  |oad  ▒              Load configuration from ASCII file
+  promrt               Prompt for an input
+  protect              Protect the statement
+  quiv                 Quit from this level
+  rename               Rename a statement
+ $repmace            " Replace character string in configuration
+  rodlback             Roll back to previouq committed configuration
+  run                  Run an operation▒K[▒▒▒coMmand
+  save                 Save configuration(to ASCII ▒Z▒5
+---(backing up)---                                       set                  Set a parameter
+Possible completions:
+  <[Enter]>          ( Execute this command
+  activate    $        Remove the i~active tag from a statement
+  annotate             Annotate the stateme▒▒▒ѡ▒a comment
+  commit        !      Commit current set ▒f changes
+                                                      copy"                Co`y a statement
+  deactivate        !  Add the i~acti▒e tag to a statement
+  delete               Delete a data element
+  edit                 Edit a sub-element
+---(*mor▒ 82%)---[ebort]x
+                   "          ▒ j---(backing up)---
+[edit]
+root#TT▒▒▒▒▒▒▒▒▒
+
