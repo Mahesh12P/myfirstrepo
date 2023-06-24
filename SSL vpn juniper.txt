@@ -1,4 +1,4 @@
-set system root-authentication encrypted-password "$1$GFEnC8Y6$67Mhbiy/WjqY.ooJ3j87I/"
+HI i am devOps engineer set system root-authentication encrypted-password "$1$GFEnC8Y6$67Mhbiy/WjqY.ooJ3j87I/"
 set system name-server 8.8.8.8
 set system name-server 8.8.4.4
 set system services ssh root-login allow
